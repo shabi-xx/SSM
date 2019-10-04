@@ -61,4 +61,7 @@
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
     </bean>
+
+    <!--ÒýÈëshiroµÄxml-->
+    <!--<import resource="classpath:spring-shiro.xml"></import>-->
 </beans>

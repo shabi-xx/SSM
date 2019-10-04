@@ -11,9 +11,9 @@ import java.io.IOException;
 
 @Slf4j
 public class LoginFilter extends HttpFilter{
-    @Override
+   /* @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         //log.info("来了老弟...");
         filterChain.doFilter(servletRequest,servletResponse);
-    }
+    }*/
 }

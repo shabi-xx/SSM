@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--权限的核心管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myShiroRealm"/>
+    </bean>
+
+    <!--自定义的 realm-->
+    <!-- 項目自定义的Realm,从数据库中获取用户的安全数据 -->
+    <bean id="myShiroRealm" class="cn.itsource.controller.shiro.UserRealm">
+        <property name="name" value="myShiroRealm"/>
+        <!--这个是匹配器-->
+        <property name="credentialsMatcher">
+            <!--  HashedCredentialsMatcher matcher = new HashedCredentialsMatcher()-->
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <!--加密方式-->
+                <property name="hashAlgorithmName" value="MD5"/>
+                <!-- true means hex encoded, false means base64 encoded -->
+                <!--迭代次数-->
+                <property name="hashIterations" value="10" />
+            </bean>
+        </property>
+    </bean>
+
+    <!--这三兄弟 我们可以支持 注解权限判断  @RequiresRoles-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!--shiro 真正的权限过滤器：通过他来完成拦截-->
+    <!-- shiro的核心配置:  配置shiroFileter id名必须与web.xml中的filtername保持一致 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <!--如果你没有登录，进入这个地方-->
+        <property name="loginUrl" value="http://localhost:8080/#/login" />
+        <!--登录成功，进入的地方-->
+        <property name="successUrl" value="/index.jsp" />
+        <!--没有权限进入的页面-->
+        <property name="unauthorizedUrl" value="/unauthorized.jsp" />
+        <!-- shiro过滤器的具体配置 -->
+        <!-- anon-匿名访问，authc-需要认证 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /login = anon
+
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+</beans>
