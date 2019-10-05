@@ -2,6 +2,7 @@ package cn.itsource.service.impl;
 
 import cn.itsource.common.Constant;
 import cn.itsource.common.CustomException;
+import cn.itsource.common.Md5Util;
 import cn.itsource.common.PageCommon;
 import cn.itsource.dao.UserMapper;
 import cn.itsource.entity.User;
@@ -41,6 +42,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void addUser(User user) {
+        String password = user.getPassword();
+        String code = Md5Util.getCode(password);
+        user.setPassword(code);
         userMapper.addUser(user);
     }
 

@@ -3,114 +3,144 @@
                 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.itsource.dao.UserMapper">
-<sql id="baseSql">
-    id,username,password,sex,age,birthday,address,name
-</sql>
-<insert id="addUser">
-    INSERT into ssm_user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="username!=null and username!=''">
-            username,
-        </if>
-        <if test="name!=null and username!=''">
-            name,
-        </if>
-        <if test="sex!=null">
-            sex,
-        </if>
-        <if test="password!=null and password!=''">
-            password,
-        </if>
-        <if test="age!=null">
-            age,
-        </if>
-        <if test="birthday!=null">
-            birthday,
-        </if>
-        <if test="address!=null and address!=''">
-            address,
-        </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-        <if test="username!=null and username!=''">
-            #{username},
-        </if>
-        <if test="name!=null and name!=''">
-            #{name},
-        </if>
-        <if test="sex!=null">
-            #{sex},
-        </if>
-        <if test="password!=null and password!=''">
-            #{password},
-        </if>
-        <if test="age!=null">
-            #{age},
-        </if>
-        <if test="birthday!=null">
-            #{birthday},
-        </if>
-        <if test="address!=null and address!=''">
-            #{address},
-        </if>
-    </trim>
-</insert>
+    <sql id="baseSql">
+        id,username,password,sex,age,birthday,address,name
+    </sql>
+    <insert id="addUser">
+        INSERT into ssm_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username!=null and username!=''">
+                username,
+            </if>
+            <if test="name!=null and username!=''">
+                name,
+            </if>
+            <if test="sex!=null">
+                sex,
+            </if>
+            <if test="password!=null and password!=''">
+                password,
+            </if>
+            <if test="age!=null">
+                age,
+            </if>
+            <if test="birthday!=null">
+                birthday,
+            </if>
+            <if test="address!=null and address!=''">
+                address,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username!=null and username!=''">
+                #{username},
+            </if>
+            <if test="name!=null and name!=''">
+                #{name},
+            </if>
+            <if test="sex!=null">
+                #{sex},
+            </if>
+            <if test="password!=null and password!=''">
+                #{password},
+            </if>
+            <if test="age!=null">
+                #{age},
+            </if>
+            <if test="birthday!=null">
+                #{birthday},
+            </if>
+            <if test="address!=null and address!=''">
+                #{address},
+            </if>
+        </trim>
+    </insert>
 
 
-<update id="updeteById">
-    update ssm_user
-    <set>
-        <if test="username!=null and username!=''">
-            username=#{username},
-        </if>
-        <if test="name!=null and name!=''">
-            name=#{name},
-        </if>
-        <if test="password!=null and password!=''">
-            password=#{password},
-        </if>
-        <if test="sex!=null">
-            sex=#{sex},
-        </if>
-        <if test="age!=null">
-            age=#{age},
-        </if>
-        <if test="birthday!=null">
-            birthday=#{birthday},
-        </if>
-        <if test="address!=null and address!=''">
-            address=#{address},
-        </if>
-    </set>
-    where id=#{id}
-</update>
-<delete id="deleteById">
-    delete from ssm_user where id=#{id}
-</delete>
+    <update id="updeteById">
+        update ssm_user
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="age!=null">
+                age=#{age},
+            </if>
+            <if test="birthday!=null">
+                birthday=#{birthday},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
 
-<delete id="deleteUsers">
-    delete from ssm_user WHERE  id IN
-    <foreach collection="list" item="id" separator="," open="(" close=")">
-        #{id}
-    </foreach>
-</delete>
+    <update id="updeteAllPassword">
+      update ssm_user
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="age!=null">
+                age=#{age},
+            </if>
+            <if test="birthday!=null">
+                birthday=#{birthday},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+        </set>
 
-<select id="login" resultType="cn.itsource.entity.User">
-    select
-    <include refid="baseSql"></include>
-    FROM ssm_user
-    WHERE username=#{username} and password=#{password}
+        where id=#{id}
+    </update>
 
-</select>
-<select id="queryPage" resultType="cn.itsource.entity.User">
-    SELECT
-    <include refid="baseSql"></include>
-    FROM ssm_user
-    <where>
-        <if test="name!=null and name!= ''">
-            username like concat('%',#{name},'%')
-        </if>
-    </where>
+    <delete id="deleteById">
+        delete from ssm_user where id=#{id}
+    </delete>
 
-</select>
+    <delete id="deleteUsers">
+        delete from ssm_user WHERE  id IN
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="login" resultType="cn.itsource.entity.User">
+        select
+        <include refid="baseSql"></include>
+        FROM ssm_user
+        WHERE username=#{username} and password=#{password}
+
+    </select>
+    <select id="queryPage" resultType="cn.itsource.entity.User">
+        SELECT
+        <include refid="baseSql"></include>
+        FROM ssm_user
+        <where>
+            <if test="name!=null and name!= ''">
+                username like concat('%',#{name},'%')
+            </if>
+        </where>
+
+    </select>
 </mapper>

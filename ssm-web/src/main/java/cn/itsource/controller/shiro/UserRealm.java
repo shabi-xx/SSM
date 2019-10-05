@@ -29,23 +29,27 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String) principal.getPrimaryPrincipal();
         //String userCode = principal.toString();
         //2.根据用户 在数据库 获取角色信息
-       /* List<Map<String, Object>> roleList = new ArrayList<Map<String, Object>>();
-        roleList = userSer.findRoles(userCode);
-        Set<String> roles = new HashSet<String>();
-        if(roleList.size()>0){
-            for(Map<String, Object> role : roleList){
-                roles.add(String.valueOf(role.get("rcode")));
-            }
-        }else{
-            System.out.println("当前用户没有角色！");
-        }
-
-        SimpleAuthorizationInfo info = null;
-        info = new SimpleAuthorizationInfo(roles);
-        return info;*/
-      return null;
+        Set<String> roles = this.getRoles(username);
+        Set<String> perms = this.getPerms(username);
+        //3.创建AuthorizationInfo对象(把角色与权限放进去)
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.setRoles(roles);
+        authorizationInfo.setStringPermissions(perms);
+        return authorizationInfo;
     }
-
+    //假设我通过用户名到数据库中获取角色和权限
+    public Set<String> getRoles(String username){
+        Set<String> roles = new HashSet<String>();
+        roles.add("admin");
+        roles.add("it");
+        return roles;
+    }
+    public Set<String> getPerms(String username){
+        Set<String> perms = new HashSet<String>();
+        perms.add("employee:*");
+        // perms.add("employee:save");
+        // perms.add("department:save");
+        return perms; }
 
     /*登录管理*/
     @Override
@@ -54,8 +58,6 @@ public class UserRealm extends AuthorizingRealm {
         UsernamePasswordToken userToken = (UsernamePasswordToken)token;
         //2.获取token中的登录账户
         String username = userToken.getUsername();
-
-        System.out.println("-------------------"+username);
         //3.查询数据库，是否存在指定的用户名和密码的用户(主键/账户/密码/账户状态/盐)
         String password = this.login(username);
         //4.密码没找到 说明不存在
@@ -70,9 +72,11 @@ public class UserRealm extends AuthorizingRealm {
         return info;
     }
 
+    //假设一个账户和密码
     public String login(String username){
         if("admin".equals(username)){
-            return "123456";
+            //这个密码是123456
+            return "dacd29653a886405c26d2486489a07cf";
         }
         return null;
     }

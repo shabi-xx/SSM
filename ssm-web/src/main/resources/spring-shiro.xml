@@ -46,13 +46,19 @@
         <property name="unauthorizedUrl" value="/unauthorized.jsp" />
         <!-- shiro过滤器的具体配置 -->
         <!-- anon-匿名访问，authc-需要认证 -->
-        <property name="filterChainDefinitions">
+        <!--<property name="filterChainDefinitions">
             <value>
                 /login = anon
-
+                /user/listpage/** = anon
                 /** = authc
             </value>
-        </property>
+        </property>-->
+        <!--这里需要一个map  所以自己创建一个工厂-->
+        <property name="filterChainDefinitionMap" ref="map"/>
     </bean>
 
+    <!--配置bean 他是工厂的方法 返回的对象-->
+    <bean id="map" factory-bean="permissionMapFactory" factory-method="createPermission"></bean>
+    <!--配置自己的工厂-->
+    <bean id="permissionMapFactory" class="cn.itsource.controller.shiro.PermissionMapFactory"></bean>
 </beans>

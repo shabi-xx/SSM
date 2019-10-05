@@ -19,4 +19,6 @@ public interface UserMapper {
 
     void deleteUsers( List<Integer> ids);
 
+    void updeteAllPassword(User user);
+
 }
