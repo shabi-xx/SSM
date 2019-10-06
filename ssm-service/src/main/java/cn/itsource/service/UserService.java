@@ -19,4 +19,6 @@ public interface UserService {
 
     void deleteUsers(List<Integer> ids);
 
+    User findByUsername(String username);
+
 }

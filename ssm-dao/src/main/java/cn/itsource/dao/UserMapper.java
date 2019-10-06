@@ -21,4 +21,6 @@ public interface UserMapper {
 
     void updeteAllPassword(User user);
 
+    User findByUsername(String username);
+
 }

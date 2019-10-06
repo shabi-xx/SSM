@@ -49,44 +49,37 @@ public class LoginController {
             HttpServletRequest request, HttpServletResponse response){
         //校验
         BindingResultUtil.bindingResult(bindingResult);
-        log.info(loginParam.getUsername()+"-----------"+loginParam.getPassword());
         //shiro
         //1.拿到当前用户
         Subject currentUser = SecurityUtils.getSubject();
         //2.如果当前用户没有登录 让他登录
         if(!currentUser.isAuthenticated()) {
             //创建一个用户密码令牌
+            UsernamePasswordToken token = new UsernamePasswordToken(loginParam.getUsername(), loginParam.getPassword());
+            token.setRememberMe(true);
             try {
-                UsernamePasswordToken token = new UsernamePasswordToken(loginParam.getUsername(), loginParam.getPassword());
                 currentUser.login(token);
             } catch (UnknownAccountException e) {
                 e.printStackTrace();
                 log.info(Constant.User.USERNAME_ERROR);
+                System.out.println(1111111);
                 return ResponseResult.fail(Constant.User.LOGIN_ERROR);
             } catch (IncorrectCredentialsException e) {
                 e.printStackTrace();
                 log.info(Constant.User.PASSWORD_ERROR);
+                System.out.println(222222222);
                 return ResponseResult.fail(Constant.User.LOGIN_ERROR);
             } catch (AuthenticationException e) {
                 e.printStackTrace();
+                System.out.println(3333333);
                 return ResponseResult.fail(Constant.User.LOGIN_ERROR);
             }
         }
-        /*User login = userService.login(loginParam.getUsername(), loginParam.getPassword());
-        request.getSession().setAttribute(Constant.User.SESSION_KEY, login);*/
-        //return ResponseResult.success(login);
-
-        /*获取前台传递的cookie*/
-        //stream.of 把数组转为流
-        Stream.of(request.getCookies())
-                //filter 表示过滤  cookie为每一个元素
-                .filter(cookie ->cookie.getName().equals("ssm"))
-                .forEach(cookie -> System.out.println(cookie.getValue()));
-
+        User loginUser = (User)currentUser.getPrincipal();
         //拿到session对象
         Session session = currentUser.getSession();
         //把用户放到session中
-        session.setAttribute("loginUser",loginParam);
-        return ResponseResult.success(loginParam);
+        session.setAttribute(Constant.User.SESSION_KEY,loginUser);
+        return ResponseResult.success(loginUser);
     }
 }

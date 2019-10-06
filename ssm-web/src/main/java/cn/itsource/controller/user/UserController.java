@@ -50,9 +50,9 @@ public class UserController {
     }
 
 
-    @PutMapping("user/{id}")
+    @PutMapping("user")
     @ApiOperation(value = "修改用户的接口")
-    public ResponseResult updete(@PathVariable("id")Integer id,
+    public ResponseResult updete(
                                  @Validated @RequestBody User user, BindingResult bindingResult){
         /*//校验
         BindingResultUtil.bindingResult(bindingResult);*/
@@ -90,8 +90,6 @@ public class UserController {
                 //filter 表示过滤  cookie为每一个元素
                 .filter(cookie ->cookie.getName().equals("ssm"))
                 .forEach(cookie -> System.out.println("=================="+cookie.getValue()));
-
-
 
         Stream.of(ids).forEach(e-> System.out.println(e));
         userService.deleteUsers(ids);

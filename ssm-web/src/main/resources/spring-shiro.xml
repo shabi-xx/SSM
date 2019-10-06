@@ -7,12 +7,15 @@
     <!--权限的核心管理器-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myShiroRealm"/>
+        <!--记住我-->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
+
 
     <!--自定义的 realm-->
     <!-- 項目自定义的Realm,从数据库中获取用户的安全数据 -->
     <bean id="myShiroRealm" class="cn.itsource.controller.shiro.UserRealm">
-        <property name="name" value="myShiroRealm"/>
+        <property name="authorizationCachingEnabled" value="true"/>
         <!--这个是匹配器-->
         <property name="credentialsMatcher">
             <!--  HashedCredentialsMatcher matcher = new HashedCredentialsMatcher()-->
@@ -24,6 +27,7 @@
                 <property name="hashIterations" value="10" />
             </bean>
         </property>
+
     </bean>
 
     <!--这三兄弟 我们可以支持 注解权限判断  @RequiresRoles-->
@@ -36,12 +40,13 @@
 
     <!--shiro 真正的权限过滤器：通过他来完成拦截-->
     <!-- shiro的核心配置:  配置shiroFileter id名必须与web.xml中的filtername保持一致 -->
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+   <!-- <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">-->
+    <!--配置shiro过滤器工厂对象-->
+    <bean id="shiroFilter" class="cn.itsource.controller.shiro.restfulsup.RestShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
         <!--如果你没有登录，进入这个地方-->
         <property name="loginUrl" value="http://localhost:8080/#/login" />
-        <!--登录成功，进入的地方-->
-        <property name="successUrl" value="/index.jsp" />
+
         <!--没有权限进入的页面-->
         <property name="unauthorizedUrl" value="/unauthorized.jsp" />
         <!-- shiro过滤器的具体配置 -->
@@ -54,11 +59,42 @@
             </value>
         </property>-->
         <!--这里需要一个map  所以自己创建一个工厂-->
-        <property name="filterChainDefinitionMap" ref="map"/>
+
+
+        <property name="filterChainDefinitionMap" ref="map"></property>
+
+        <!--自定义拦截器-->
+        <property name="filters">
+            <map>
+                <entry key="authorizationFilterSuportAjax" value-ref="authorizationFilterSuportAjax"></entry>
+                <entry key="myAuthenticationFilter" value-ref="myAuthenticationFilter"></entry>
+            </map>
+        </property>
+    </bean>
+    <!--配置bean 他是工厂的方法 返回的对象-->
+    <bean id="map" factory-bean="permissionMapFactory" factory-method="createPermission">
+    </bean>
+    <!--配置自己的工厂-->
+    <bean id="permissionMapFactory" class="cn.itsource.controller.shiro.PermissionMapFactory">
     </bean>
 
-    <!--配置bean 他是工厂的方法 返回的对象-->
-    <bean id="map" factory-bean="permissionMapFactory" factory-method="createPermission"></bean>
-    <!--配置自己的工厂-->
-    <bean id="permissionMapFactory" class="cn.itsource.controller.shiro.PermissionMapFactory"></bean>
+    <!-- 配置自定义权限过滤器 -->
+    <bean id="authorizationFilterSuportAjax" class="cn.itsource.controller.shiro.PermissionsAuthorizationFilterSuportAjax"></bean>
+    <bean id="myAuthenticationFilter" class="cn.itsource.controller.shiro.MyAuthenticationFilter"></bean>
+
+    <!-- 记住我 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="simpleCookie"/>
+    </bean>
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <property name="name" value="remeberMe"/>
+    </bean>
+    <!--开启shiro 框架的注解支持-->
+    <bean id="advisorAutoProxyCreator"
+          class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+        <!--默认开启CGLIB代理-->
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <!--配置切面  用于创建代理对象-->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"/>
 </beans>

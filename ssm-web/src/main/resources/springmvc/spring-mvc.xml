@@ -34,12 +34,12 @@
     <bean class="cn.itsource.controller.exception.CustomExceptionResolver"></bean>
     <!--跨域问题 -->
     <mvc:cors>
-        <!--path:所有路径
-        allowed-methods:允许的请求方式
-        allow-credentials="true":允许凭证 cookie
-        -->
-        <mvc:mapping path="/**" allowed-origins="*" allow-credentials="true" max-age="1800"
-                     allowed-methods="GET,POST,PUT,DELETE,PATCH,OPTIONS"/>
+        <mvc:mapping path="/**" allowed-origins="*"
+                     allowed-methods="GET,POST,PUT,DELETE,PATCH,OPTIONS"
+                     allowed-headers="*"
+                     allow-credentials="true"
+                     max-age="1800"
+        />
     </mvc:cors>
 
     <!--全局时间  转换器-->
@@ -63,5 +63,5 @@
     </bean>
 
     <!--引入shiro的xml-->
-    <!--<import resource="classpath:spring-shiro.xml"></import>-->
+    <import resource="classpath:spring-shiro.xml"></import>
 </beans>

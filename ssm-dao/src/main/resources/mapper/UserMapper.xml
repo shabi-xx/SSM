@@ -143,4 +143,11 @@
         </where>
 
     </select>
+    <select id="findByUsername" resultType="cn.itsource.entity.User" parameterType="string">
+        SELECT
+        id,username,password
+        FROM ssm_user
+        where username =#{username}
+
+    </select>
 </mapper>
