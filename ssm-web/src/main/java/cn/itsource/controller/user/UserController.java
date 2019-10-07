@@ -50,12 +50,11 @@ public class UserController {
     }
 
 
-    @PutMapping("user")
+    @PutMapping("user/{id}")
     @ApiOperation(value = "修改用户的接口")
     public ResponseResult updete(
-                                 @Validated @RequestBody User user, BindingResult bindingResult){
-        /*//校验
-        BindingResultUtil.bindingResult(bindingResult);*/
+            @PathVariable("id")Integer id, @Validated @RequestBody User user){
+        System.out.println(1111111);
         userService.updeteById(user);
         return ResponseResult.success();
     }

@@ -66,9 +66,7 @@
             <if test="name!=null and name!=''">
                 name=#{name},
             </if>
-            <if test="password!=null and password!=''">
-                password=#{password},
-            </if>
+
             <if test="sex!=null">
                 sex=#{sex},
             </if>
