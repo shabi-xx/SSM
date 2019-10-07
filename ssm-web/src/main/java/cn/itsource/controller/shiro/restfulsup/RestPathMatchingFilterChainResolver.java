@@ -10,10 +10,12 @@ import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.util.Iterator;
+
+/*支持 restful 风格*/
 
 public class RestPathMatchingFilterChainResolver extends PathMatchingFilterChainResolver {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestPathMatchingFilterChainResolver.class);
+    private static final Logger log = LoggerFactory.getLogger(RestPathMatchingFilterChainResolver.class);
 
     public RestPathMatchingFilterChainResolver() {
         super();
@@ -29,11 +31,9 @@ public class RestPathMatchingFilterChainResolver extends PathMatchingFilterChain
         if (!filterChainManager.hasChains()) {
             return null;
         }
-/*/user--post
-/user--put=supAjaxPerm[user:update]
-/user/*--delete=supAjaxPerm[user:delete]*/
+
         String requestURI = getPathWithinApplication(request);
-        String[] urls ;
+        String[] urls = null;
         for (String pathPattern : filterChainManager.getChainNames()) {
             urls = pathPattern.split("--");
             if (urls.length == 2) {
@@ -43,8 +43,8 @@ public class RestPathMatchingFilterChainResolver extends PathMatchingFilterChain
                 }
             }
             if (pathMatches(pathPattern, requestURI)) {
-                if (LOGGER.isTraceEnabled()) {
-                    LOGGER.trace("Matched path pattern [" + pathPattern + "] for requestURI [" + requestURI + "].  " +
+                if (log.isTraceEnabled()) {
+                    log.trace("Matched path pattern [" + pathPattern + "] for requestURI [" + requestURI + "].  " +
                             "Utilizing corresponding filter chain...");
                 }
                 if (urls.length == 2) {
@@ -55,5 +55,4 @@ public class RestPathMatchingFilterChainResolver extends PathMatchingFilterChain
         }
         return null;
     }
-
 }

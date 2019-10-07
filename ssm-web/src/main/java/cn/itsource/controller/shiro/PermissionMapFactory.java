@@ -22,7 +22,7 @@ public class PermissionMapFactory {
         permissionMap.put("/login","anon" );
         //permissionMap.put("/user/listpage/**", "anon");
         //需要权限才能访问
-        permissionMap.put("/user/user/*", "perms[user:user]");
+        //permissionMap.put("/user/user/*", "perms[user:user]");
         //其他拦截必须写到最后  这里改为自己的拦截器
         permissionMap.put("/**","myAuthenticationFilter" );
         return permissionMap;

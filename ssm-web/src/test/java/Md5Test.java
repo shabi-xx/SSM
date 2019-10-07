@@ -8,7 +8,7 @@ public class Md5Test {
 
     @Test
     public void test() throws Exception{
-        SimpleHash hash = new SimpleHash("md5","123123","hzw",10);
+        SimpleHash hash = new SimpleHash("md5","123456","hzw",10);
         System.out.println(hash);
     }
 

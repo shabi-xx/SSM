@@ -10,6 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class PermissionsAuthorizationFilterSuportAjax extends PermissionsAuthorizationFilter {
     @Override
@@ -18,17 +19,30 @@ public class PermissionsAuthorizationFilterSuportAjax extends PermissionsAuthori
         if (subject.getPrincipal() == null) {
             this.saveRequestAndRedirectToLogin(request, response);
         } else {
+
             //登录成功后没有权限的操作
             //1.转成http的请求与响应操作
-            HttpServletRequest httpRequest = (HttpServletRequest) request;
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+           /* //解决无权限的跨域问题
+            httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin")); //标识允许哪个域到请求，直接修改成请求头的域
+            httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");//标识允许的请求方法
+            // 响应首部 Access-Control-Allow-Headers 用于 preflight request （预检请求）中，列出了将会在正式请求的 Access-Control-Expose-Headers 字段中出现的首部信息。修改为请求首部
+            httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
+            httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+            httpServletResponse.setCharacterEncoding("utf-8");
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            PrintWriter writer = httpServletResponse.getWriter();
+            writer.write("{\"code\":\"001\",\"message\":\"没有权限\"}");
+            writer.flush();
+            writer.close();*/
             //2.根据请求确定是什么请求
-            String xRequestedWith = httpRequest.getHeader("X-Requested-With");
+            String xRequestedWith = httpServletRequest.getHeader("X-Requested-With");
             if (xRequestedWith != null &&"XMLHttpRequest".equals(xRequestedWith)) {
                 //3.在这里就代表是ajax请求
                 //表示ajax请求 {"code":"001","message":"没有权限"}
-                httpResponse.setContentType("text/json; charset=UTF-8");
-                httpResponse.getWriter().print("{\"code\":\"001\",\"message\":\"没有权限\"}");
+                httpServletResponse.setContentType("text/json; charset=UTF-8");
+                httpServletResponse.getWriter().print("{\"code\":\"001\",\"message\":\"没有权限\"}");
             }else {
                 String unauthorizedUrl = this.getUnauthorizedUrl();
                 if (StringUtils.hasText(unauthorizedUrl)) {

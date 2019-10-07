@@ -49,6 +49,14 @@
 
         <!--没有权限进入的页面-->
         <property name="unauthorizedUrl" value="/unauthorized.jsp" />
+
+        <!--自定义拦截器-->
+        <property name="filters">
+            <map>
+                <entry key="authorizationFilterSuportAjax" value-ref="authorizationFilterSuportAjax"></entry>
+                <entry key="myAuthenticationFilter" value-ref="myAuthenticationFilter"></entry>
+            </map>
+        </property>
         <!-- shiro过滤器的具体配置 -->
         <!-- anon-匿名访问，authc-需要认证 -->
         <!--<property name="filterChainDefinitions">
@@ -63,13 +71,7 @@
 
         <property name="filterChainDefinitionMap" ref="map"></property>
 
-        <!--自定义拦截器-->
-        <property name="filters">
-            <map>
-                <entry key="authorizationFilterSuportAjax" value-ref="authorizationFilterSuportAjax"></entry>
-                <entry key="myAuthenticationFilter" value-ref="myAuthenticationFilter"></entry>
-            </map>
-        </property>
+
     </bean>
     <!--配置bean 他是工厂的方法 返回的对象-->
     <bean id="map" factory-bean="permissionMapFactory" factory-method="createPermission">
