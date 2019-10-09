@@ -1,16 +1,14 @@
 package cn.itsource.controller.user;
 
+import cn.itsource.common.NeedLogin;
+import cn.itsource.common.NeedPermission;
 import cn.itsource.common.ResponseResult;
-import cn.itsource.controller.param.UserParam;
-import cn.itsource.controller.utils.BindingResultUtil;
 import cn.itsource.entity.User;
 import cn.itsource.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +36,8 @@ public class UserController {
 
     @GetMapping("listpage/{page}/{name}") ///user/listpage?page=1&name=aa
     @ApiOperation(value = "查询接口")
+    @NeedLogin
+    @NeedPermission
     public ResponseResult queryPage(
             @PathVariable("page")Integer page,@PathVariable("name") String name){
 
@@ -54,11 +52,20 @@ public class UserController {
     @ApiOperation(value = "修改用户的接口")
     public ResponseResult updete(
             @PathVariable("id")Integer id, @Validated @RequestBody User user){
-        System.out.println(1111111);
         userService.updeteById(user);
         return ResponseResult.success();
     }
 
+    /*@DeleteMapping("user/{id}")
+    @ApiOperation(value = "删除一个用户的接口")
+    public ResponseResult deleteById(@PathVariable("id")Integer id){
+        //校验
+        //BindingResultUtil.bindingResult(bindingResult);
+        userService.deleteById(id);
+        return ResponseResult.success();
+    }*/
+
+    @NeedPermission
     @PostMapping("user")
     @ApiOperation(value = "这个是添加接口")
     public ResponseResult add(@RequestBody User user){
@@ -68,15 +75,7 @@ public class UserController {
         return ResponseResult.success();
     }
 
-   /* @DeleteMapping("user/{id}")
-    @ApiOperation(value = "删除一个用户的接口")
-    public ResponseResult deleteById(@PathVariable("id")Integer id){
-        //校验
-        //BindingResultUtil.bindingResult(bindingResult);
-        userService.deleteById(id);
-        return ResponseResult.success();
-    }*/
-
+    @NeedPermission
     @DeleteMapping("user/{ids}")
     @ApiOperation(value = "批量删除和普通删除用户的接口")
     public ResponseResult deleteAll(@PathVariable("ids") List<Integer> ids,HttpServletRequest request){

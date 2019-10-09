@@ -1,4 +1,4 @@
-package cn.itsource.controller.param;
+package cn.itsource.param;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

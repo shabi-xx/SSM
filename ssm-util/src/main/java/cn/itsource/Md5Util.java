@@ -1,4 +1,4 @@
-package cn.itsource.common;
+package cn.itsource;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 

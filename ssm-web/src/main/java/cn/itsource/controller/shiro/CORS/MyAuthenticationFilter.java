@@ -22,6 +22,7 @@ public class MyAuthenticationFilter extends FormAuthenticationFilter {
         super();
     }
 
+    /*放行 OPTIONS  权限认证控制跳过OPTIONS方法，不让他做认证检查*/
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         if (request instanceof HttpServletRequest) {
@@ -33,14 +34,8 @@ public class MyAuthenticationFilter extends FormAuthenticationFilter {
     }
 
 
-   /* @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
-            throws Exception {
-        WebUtils.toHttp(response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        return false;
-    }*/
-
    /*解决401*/
+   /*响应 跨域*/
    @Override
    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
        HttpServletRequest httpServletRequest = (HttpServletRequest) request;

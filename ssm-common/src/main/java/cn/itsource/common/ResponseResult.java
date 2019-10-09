@@ -28,6 +28,7 @@ public class ResponseResult<T> {
         this.data = data;
         this.message = message;
     }
+    //请求成功
     public static ResponseResult success(){
         return new ResponseResult(ResultEnum.SUCCESS.getCode());
     }
@@ -40,6 +41,7 @@ public class ResponseResult<T> {
     public static<T> ResponseResult success(String message, T data){
         return new ResponseResult(ResultEnum.SUCCESS.getCode(),message,data);
     }
+    //请求错误
     public static ResponseResult fail(){
         return new ResponseResult(ResultEnum.FAIL.getCode());
     }
@@ -52,4 +54,18 @@ public class ResponseResult<T> {
     public static<T> ResponseResult fail(String message, T data){
         return new ResponseResult(ResultEnum.FAIL.getCode(),message,data);
     }
+    //没有登录
+    public static ResponseResult loginFail(){
+        return new ResponseResult(ResultEnum.LOGIN_FAIL.getCode());
+    }
+    public static ResponseResult loginFail(String message){
+        return new ResponseResult(ResultEnum.LOGIN_FAIL.getCode(),message);
+    }
+    public static<T> ResponseResult loginFail(T data){
+        return new ResponseResult(ResultEnum.LOGIN_FAIL.getCode(),data);
+    }
+    public static<T> ResponseResult loginFail(String message, T data){
+        return new ResponseResult(ResultEnum.LOGIN_FAIL.getCode(),message,data);
+    }
+
 }

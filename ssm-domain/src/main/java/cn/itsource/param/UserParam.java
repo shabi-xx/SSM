@@ -1,4 +1,4 @@
-package cn.itsource.controller.param;
+package cn.itsource.param;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

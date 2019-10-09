@@ -2,7 +2,7 @@ package cn.itsource.controller;
 
 import cn.itsource.common.CustomException;
 import cn.itsource.common.ResponseResult;
-import cn.itsource.controller.param.ValidatorTest;
+import cn.itsource.param.ValidatorTest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

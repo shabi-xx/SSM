@@ -2,15 +2,12 @@ package cn.itsource.controller.user;
 
 import cn.itsource.common.Constant;
 import cn.itsource.common.ResponseResult;
-import cn.itsource.controller.param.LoginParam;
+import cn.itsource.param.LoginParam;
 import cn.itsource.controller.utils.BindingResultUtil;
 import cn.itsource.entity.User;
 import cn.itsource.service.UserService;
-import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jdk.nashorn.internal.ir.CallNode;
-import jdk.nashorn.internal.ir.Expression;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -27,17 +24,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.stream.Stream;
 
 @Slf4j
 @RestController
 @Api(tags = "登录用户的controlelr")
 @CrossOrigin(allowCredentials = "true")
-public class LoginController {
+class LoginController1 {
     @Autowired
     private UserService userService;
 
@@ -62,16 +56,13 @@ public class LoginController {
             } catch (UnknownAccountException e) {
                 e.printStackTrace();
                 log.info(Constant.User.USERNAME_ERROR);
-                System.out.println(1111111);
                 return ResponseResult.fail(Constant.User.LOGIN_ERROR);
             } catch (IncorrectCredentialsException e) {
                 e.printStackTrace();
                 log.info(Constant.User.PASSWORD_ERROR);
-                System.out.println(222222222);
                 return ResponseResult.fail(Constant.User.LOGIN_ERROR);
             } catch (AuthenticationException e) {
                 e.printStackTrace();
-                System.out.println(3333333);
                 return ResponseResult.fail(Constant.User.LOGIN_ERROR);
             }
         }

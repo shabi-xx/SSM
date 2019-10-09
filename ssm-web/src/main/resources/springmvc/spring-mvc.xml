@@ -33,14 +33,14 @@
     <!--配置自定义异常处理器-->
     <bean class="cn.itsource.controller.exception.CustomExceptionResolver"></bean>
     <!--跨域问题 -->
-    <mvc:cors>
+   <!-- <mvc:cors>
         <mvc:mapping path="/**" allowed-origins="*"
                      allowed-methods="GET,POST,PUT,DELETE,PATCH,OPTIONS"
                      allowed-headers="*"
                      allow-credentials="true"
                      max-age="1800"
         />
-    </mvc:cors>
+    </mvc:cors>-->
 
     <!--全局时间  转换器-->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -64,4 +64,17 @@
 
     <!--引入shiro的xml-->
     <import resource="classpath:spring-shiro.xml"></import>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="cn.itsource.controller.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="cn.itsource.controller.interceptor.PermissionInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

@@ -3,6 +3,38 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5" metadata-complete="true">
+
+  <!--过滤器 拦截器跨域问题解决-->
+  <filter>
+    <filter-name>CORS</filter-name>
+    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+    <init-param>
+      <param-name>cors.allowOrigin</param-name>
+      <param-value>*</param-value>
+    </init-param>
+    <init-param>
+      <param-name>cors.supportedMethods</param-name>
+      <param-value>GET, POST, HEAD, PUT, DELETE</param-value>
+    </init-param>
+    <init-param>
+      <param-name>cors.supportedHeaders</param-name>
+      <param-value>Accept, Origin, X-Requested-With, Content-Type, Last-Modified</param-value>
+    </init-param>
+    <init-param>
+      <param-name>cors.exposedHeaders</param-name>
+      <param-value>Set-Cookie</param-value>
+    </init-param>
+    <init-param>
+      <param-name>cors.supportsCredentials</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CORS</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+<!--  &lt;!&ndash;自定义过滤器&ndash;&gt;
   <filter>
     <filter-name>loginFilter</filter-name>
     <filter-class>cn.itsource.filer.LoginFilter</filter-class>
@@ -10,7 +42,7 @@
   <filter-mapping>
     <filter-name>loginFilter</filter-name>
     <url-pattern>/*</url-pattern>
-  </filter-mapping>
+  </filter-mapping>-->
 
   <!-- 自定义编码拦截器 -->
   <filter>
@@ -40,9 +72,9 @@
     <param-value>
         classpath*:spring/spring-*.xml
 
-        classpath:spring-shiro.xml
     </param-value>
   </context-param>
+  <!-- classpath:spring-shiro.xml-->
 
   <!--DispatcherServlet：中控
       handlermapping:根据url返回对应的controller(handler),拦截器链
@@ -77,7 +109,7 @@
 
 
  <!-- shiro的过滤器-->
-  <filter>
+<!--  <filter>
     <filter-name>shiroFilter</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     <init-param>
@@ -89,7 +121,7 @@
   <filter-mapping>
     <filter-name>shiroFilter</filter-name>
     <url-pattern>/*</url-pattern>
-  </filter-mapping>
+  </filter-mapping>-->
 
 
 </web-app>

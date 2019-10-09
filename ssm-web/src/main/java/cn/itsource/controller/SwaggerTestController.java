@@ -2,9 +2,8 @@ package cn.itsource.controller;
 
 import cn.itsource.common.Constant;
 import cn.itsource.common.ResponseResult;
-import cn.itsource.controller.param.SwaggerTest;
+import cn.itsource.param.SwaggerTest;
 import io.swagger.annotations.*;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
