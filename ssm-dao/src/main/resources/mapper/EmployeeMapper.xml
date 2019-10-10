@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, email, headImage, age, department_id
+    id, username, password, email, headImage, age, department_id,phone
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -92,8 +92,14 @@
     JOIN permission p on rp.permission_id = p.id
     where e.id=#{id}
   </select>
+    <select id="selectByPhone" resultType="cn.itsource.entity.Employee">
+      select <include refid="Base_Column_List"></include>
+      FROM employee
+      where phone=#{phone}
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from employee
     where id = #{id,jdbcType=BIGINT}
   </delete>

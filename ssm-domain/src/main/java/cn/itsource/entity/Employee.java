@@ -20,7 +20,7 @@ public class Employee implements Serializable{
 
     private Long departmentId;
 
-
+    private String phone;
 
     public Long getId() {
         return id;

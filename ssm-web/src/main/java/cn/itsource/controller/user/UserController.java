@@ -47,7 +47,6 @@ public class UserController {
         return ResponseResult.success( userService.queryPage(page,name));
     }
 
-
     @PutMapping("user/{id}")
     @ApiOperation(value = "修改用户的接口")
     public ResponseResult updete(
@@ -65,7 +64,6 @@ public class UserController {
         return ResponseResult.success();
     }*/
 
-    @NeedPermission
     @PostMapping("user")
     @ApiOperation(value = "这个是添加接口")
     public ResponseResult add(@RequestBody User user){
@@ -75,7 +73,6 @@ public class UserController {
         return ResponseResult.success();
     }
 
-    @NeedPermission
     @DeleteMapping("user/{ids}")
     @ApiOperation(value = "批量删除和普通删除用户的接口")
     public ResponseResult deleteAll(@PathVariable("ids") List<Integer> ids,HttpServletRequest request){
