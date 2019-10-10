@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
     public PageCommon<List<User>> queryPage(Integer page, String name) {
 
         List<User> users = userMapper.queryPage(page, name);
-        return new PageCommon<>(123, users);
+        return new PageCommon<>(page, users);
 
 
     }

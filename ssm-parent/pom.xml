@@ -250,6 +250,12 @@
                 <version>4.4.1</version>
             </dependency>
 
+            <!--分页插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>4.1.6</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

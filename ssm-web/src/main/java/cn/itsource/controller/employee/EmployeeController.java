@@ -59,16 +59,14 @@ public class EmployeeController {
     @ApiOperation(value = "获取验证码",notes = "获取验证码接口")
     public ResponseResult getCode(@Validated @RequestBody PhoneParam phone,BindingResult bindingResult){
         BindingResultUtil.bindingResult(bindingResult);
-        log.info(phone.getPhone());
-
         ResponseResult responseResult = employeeService.selectByPhone(phone);
         return responseResult;
     }
+
     @PostMapping("/phoneLogin")
     @ApiOperation(value = "手机登录",notes = "手机登录")
     public ResponseResult phoneLogin(@Validated @RequestBody PhoneLoginParam phoneLoginParam, BindingResult bindingResult,HttpServletResponse response){
         BindingResultUtil.bindingResult(bindingResult);
-        log.info(phoneLoginParam.getVcode());
         ResponseResult responseResult = employeeService.selectByPhoneCode(phoneLoginParam);
 
         if(responseResult.getCode().equals("1")) {

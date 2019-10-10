@@ -2,9 +2,11 @@ package cn.itsource.controller.user;
 
 import cn.itsource.common.NeedLogin;
 import cn.itsource.common.NeedPermission;
+import cn.itsource.common.PageCommon;
 import cn.itsource.common.ResponseResult;
 import cn.itsource.entity.User;
 import cn.itsource.service.UserService;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +46,10 @@ public class UserController {
         if(name.equals("null")){
             name = null;
         }
-        return ResponseResult.success( userService.queryPage(page,name));
+        PageHelper.startPage(page,3);//当前页 当前页数量
+        PageCommon<List<User>> listPageCommon = userService.queryPage(page, name);
+
+        return ResponseResult.success(listPageCommon);
     }
 
     @PutMapping("user/{id}")
